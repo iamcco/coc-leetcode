@@ -1,0 +1,80 @@
+{
+  "name": "coc-leetcode",
+  "version": "1.0.0",
+  "description": "leetcode support for (Neo)vim",
+  "author": "iamcco <ooiss@qq.com>",
+  "license": "MIT",
+  "main": "out/index.js",
+  "keywords": [
+    "coc.nvim",
+    "leetcode"
+  ],
+  "engines": {
+    "coc": "^0.0.74"
+  },
+  "scripts": {
+    "clean": "rm -rf ./out",
+    "watch": "webpack --watch",
+    "build": "webpack",
+    "lint": "eslint --fix ./src/**/*.ts",
+    "prepare": "npm run clean && npm run build"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run lint"
+    }
+  },
+  "activationEvents": [
+    "*"
+  ],
+  "contributes": {
+    "configuration": {
+      "type": "object",
+      "title": "leetcode configuration",
+      "properties": {
+        "leetcode.trace.server": {
+          "type": "string",
+          "default": "off",
+          "enum": [
+            "off",
+            "messages",
+            "verbose"
+          ],
+          "description": "Trace level of log"
+        },
+        "leetcode.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable/disable this extension"
+        }
+      },
+      "commands": [
+        {
+          "command": "leetcode.login",
+          "title": "Login by account and password"
+        }
+      ]
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^13.11.0",
+    "@typescript-eslint/eslint-plugin": "^2.5.0",
+    "@typescript-eslint/parser": "^2.5.0",
+    "coc.nvim": "^0.0.74",
+    "colors": "^1.4.0",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "husky": "^3.0.9",
+    "prettier": "^1.18.2",
+    "ts-loader": "^6.0.4",
+    "typescript": "^3.5.3",
+    "vscode-languageserver-protocol": "3.15.0-next.6",
+    "webpack": "^4.39.2",
+    "webpack-cli": "^3.3.6"
+  },
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
+}
