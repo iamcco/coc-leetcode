@@ -7,7 +7,7 @@ const log = logger.getlog('Api');
 
 export class Base extends Dispose {
   protected method: Method = 'GET';
-  protected url = '';
+  protected url = 'https://leetcode-cn.com/graphql/';
   protected readonly headers: Record<string, string> = {};
 
   protected getHeaders() {

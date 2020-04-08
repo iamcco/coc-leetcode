@@ -1,16 +1,18 @@
 import { Base } from './base';
 import { Method } from 'axios';
+import { graphqlTag } from '../../util/string';
 
 export class Login extends Base {
   readonly method: Method = 'POST';
   readonly url: string = 'https://leetcode-cn.com/graphql/';
-  private readonly query: string = `"query":"mutation signInWithPassword($data: AuthSignInWithPasswordInput!) {
-      authSignInWithPassword(data: $data) {
-      ok
-      __typename
+  private readonly query: string = graphqlTag`
+    "query":"mutation signInWithPassword($data: AuthSignInWithPasswordInput!) {
+        authSignInWithPassword(data: $data) {
+        ok
+        __typename
+        }
       }
-    }
-  "`.replace(/\n/g, '\\n');
+    "`;
   private graphql(username: string, password: string) {
     return `
       {

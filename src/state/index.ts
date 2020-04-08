@@ -56,10 +56,11 @@ export class State extends Dispose {
       }
       return false;
     });
+    this.serialize();
   }
 
   serialize() {
-    if (this.dataPath) {
+    if (this.dataPath && this._csrftoken && this._cookies.length) {
       const info = JSON.stringify({
         csrftoken: this._csrftoken,
         cookies: this._cookies,

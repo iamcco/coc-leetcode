@@ -1,18 +1,24 @@
-import { Base } from './base';
+import { Base } from '../base';
 import { Method } from 'axios';
-import { Dispose } from '../../util/dispose';
+import { graphqlTag } from '../../../util/string';
+import { leetcode } from '../..';
+import { ProblemDetail } from './detail';
+
+function getDetail(this: Problem) {
+  return leetcode.problemDetail.request(this.stat.question__title_slug);
+}
 
 class Translations extends Base {
   method: Method = 'POST';
-  url = 'https://leetcode-cn.com/graphql/';
-  private readonly query: string = `"query": "query getQuestionTranslation($lang: String) {
-      translations: allAppliedQuestionTranslations(lang: $lang) {
-        title
-        questionId
-        __typename
+  private readonly query: string = graphqlTag`
+    "query": "query getQuestionTranslation($lang: String) {
+        translations: allAppliedQuestionTranslations(lang: $lang) {
+          title
+          questionId
+          __typename
+        }
       }
-    }
-  "`.replace(/\n/g, '\\n');
+    "`;
 
   private graphql() {
     return `
@@ -60,12 +66,13 @@ export interface Problem {
   is_favor: boolean;
   frequency: 0;
   progress: 0;
+  getDetail: () => Promise<ProblemDetail>;
 }
 
-export class Problems extends Dispose {
+export class Problems extends Base {
   private translations = new Translations();
   private details = new Details();
-  request(): Promise<{
+  public request(): Promise<{
     solved: number;
     total: number;
     easy: number;
@@ -90,6 +97,7 @@ export class Problems extends Dispose {
         problems: (details.stat_status_pairs || []).map((item: Problem) => {
           // eslint-disable-next-line @typescript-eslint/camelcase
           item.stat.question__title_cn = titlesCN[item.stat.question_id];
+          item.getDetail = getDetail;
           return item;
         }),
       };

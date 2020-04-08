@@ -17,3 +17,15 @@ export const screenPadEnd = (param: string, len: number, str: string) => {
   }
   return `${param}${Array.from(Array(len - pLen + 1)).join(str[0])}`;
 };
+
+export const graphqlTag = (strings: TemplateStringsArray, ...keys: any[]) => {
+  return strings
+    .reduce((pre, cur) => {
+      if (keys.length) {
+        return `${pre}${keys.shift()}${cur}`;
+      }
+      return pre;
+    })
+    .trim()
+    .replace(/\n/g, '\\n');
+};

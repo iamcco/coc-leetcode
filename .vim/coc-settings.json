@@ -3,12 +3,25 @@
     "Autocmd",
     "Leetcode",
     "Unimported",
+    "bufhidden",
+    "buftype",
     "camelcase",
     "csrftoken",
+    "foldmethod",
     "getlog",
     "hellod",
+    "htom",
+    "leftabove",
+    "nbsp",
+    "nobuflisted",
+    "nofile",
+    "nomodified",
+    "noswapfile",
     "outchannel",
     "pubspec",
-    "regist"
+    "regist",
+    "setf",
+    "setl",
+    "tabnew"
   ]
 }
