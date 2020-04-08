@@ -9,6 +9,9 @@ import { screenPadEnd } from '../util/string';
 const log = logger.getlog('source-problems');
 
 const getCodeByType = (type: string, codes: Array<{ langSlug: string; code: string }>): string => {
+  if (!codes || !codes.length) {
+    return '';
+  }
   for (const item of codes) {
     if (item.langSlug === type) {
       return item.code;
@@ -37,7 +40,7 @@ class Task extends EventEmitter implements ListTask {
             ((problem.stat.total_acs / problem.stat.total_submitted) * 100).toFixed(1) + '%',
             10,
             ' ',
-          )} ${ProblemLevel[problem.difficulty.level]}`,
+          )} ${screenPadEnd(ProblemLevel[problem.difficulty.level], 8, ' ')} ${problem.paid_only ? '🔒' : ''}`,
           data: problem,
         } as ListItem);
       });

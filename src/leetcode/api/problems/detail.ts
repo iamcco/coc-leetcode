@@ -156,7 +156,9 @@ export class Detail extends Base {
     const detail = res.data.question;
     try {
       detail.stats = JSON.parse(detail.stats);
-      detail.translatedContent = ((await htom(detail.translatedContent)) as string).replace(/&nbsp;/g, ' ').trim();
+      detail.translatedContent = ((await htom(detail.translatedContent || '')) as string)
+        .replace(/&nbsp;/g, ' ')
+        .trim();
     } catch (error) {
       log(`Parse stats: ${error.message}`);
     }
