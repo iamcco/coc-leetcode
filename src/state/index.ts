@@ -46,7 +46,9 @@ export class State extends Dispose {
   public updateByHeaders(headers: Record<string, string | string[]>) {
     if (headers['set-cookie']) {
       (headers['set-cookie'] as string[]).forEach(cookie => {
-        this._cookies.push(cookie.split(';')[0]);
+        const item = cookie.split(';')[0].split('=');
+        this._cookies = this._cookies.filter(c => !c.startsWith(item[0]));
+        this._cookies.push(item.join('='));
       });
     }
     this._cookies.some(cookie => {
