@@ -8,6 +8,11 @@ const log = logger.getlog('statusBar');
 class StatusBar extends Dispose {
   private statusBar: StatusBarItem | undefined = undefined;
 
+  constructor() {
+    super();
+    this.init();
+  }
+
   init() {
     this.statusBar = workspace.createStatusBarItem(0, { progress: false });
     this.push(this.statusBar);
@@ -21,6 +26,7 @@ class StatusBar extends Dispose {
           if (!doc) {
             return;
           }
+          log(`enter ${doc.buffer.id}`);
           try {
             const bufInfo = await doc.buffer.getVar(extensionName);
             if (bufInfo) {

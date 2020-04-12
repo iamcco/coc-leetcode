@@ -1,6 +1,6 @@
 import { Window, Buffer as NVIMBuffer, workspace } from 'coc.nvim';
 
-import { Message } from './message';
+import { Message, MessageType } from './message';
 import { Dispose } from '../../util/dispose';
 
 export class FloatWindow extends Dispose {
@@ -11,7 +11,7 @@ export class FloatWindow extends Dispose {
     super();
   }
 
-  public async show(top: number) {
+  public async show(top: number, type: MessageType) {
     const { nvim } = workspace;
     const { message } = this;
 
@@ -34,7 +34,6 @@ export class FloatWindow extends Dispose {
     this.buf = buf;
     this.win = win;
 
-    nvim.pauseNotification();
     await win.setOption('number', false);
     await win.setOption('wrap', true);
     await win.setOption('relativenumber', false);
@@ -42,9 +41,12 @@ export class FloatWindow extends Dispose {
     await win.setOption('cursorcolumn', false);
     await win.setOption('conceallevel', 2);
     await win.setOption('signcolumn', 'no');
-    await win.setOption('foldcolumn', 1);
-    await win.setOption('winhighlight', 'FoldColumn:NormalFloat');
-    await nvim.resumeNotification();
+    try {
+      await win.setOption('foldcolumn', '1');
+    } catch (error) {
+      await win.setOption('foldcolumn', 1);
+    }
+    await win.setOption('winhighlight', `FoldColumn:${type}`);
   }
 
   public async dispose() {

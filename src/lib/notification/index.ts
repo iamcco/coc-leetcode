@@ -1,7 +1,7 @@
 import { workspace } from 'coc.nvim';
 
 import { Dispose } from '../../util/dispose';
-import { Message } from './message';
+import { Message, MessageType } from './message';
 
 const messageMaxWidth = 60;
 const detectTimeGap = 1000 / 30;
@@ -10,7 +10,7 @@ const messageDefaultShowTime = 3000;
 class Notification extends Dispose {
   private isSupportFloat = false;
   // top to the viewpoint
-  private top = 1;
+  private top = 0;
   private maxWidth: number = messageMaxWidth;
   private messages: Message[] = [];
   private display: Message[] = [];
@@ -27,6 +27,8 @@ class Notification extends Dispose {
     this.isSupportFloat = !!(await nvim.call('exists', '*nvim_open_win'));
     const screenWidth = (await nvim.getOption('columns')) as number;
     this.maxWidth = Math.min(this.maxWidth, screenWidth);
+    workspace.nvim.command('highlight CocLeetcodeGreen guibg=#82d66f');
+    workspace.nvim.command('highlight CocLeetcodeRed guibg=#f36f6f');
   }
 
   private async detect() {
@@ -63,7 +65,7 @@ class Notification extends Dispose {
     }, this.timeGap);
   }
 
-  show(message: string | string[], showTime: number = messageDefaultShowTime) {
+  show(message: string | string[], showTime: number = messageDefaultShowTime, type: MessageType) {
     const messages = ([] as string[]).concat(message);
     if (messages.length === 0) {
       return;
@@ -71,7 +73,7 @@ class Notification extends Dispose {
     if (!this.isSupportFloat) {
       return workspace.showMessage(messages.join('\n'));
     }
-    this.messages.push(new Message(messages, this.maxWidth, showTime));
+    this.messages.push(new Message(messages, this.maxWidth, showTime, type));
     this.detect();
   }
 

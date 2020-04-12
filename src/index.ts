@@ -4,6 +4,9 @@ import { logger, logLevel } from './util/logger';
 import { SourceList } from './sources';
 import { extensionName } from './util/constant';
 import { state } from './state';
+import { statusBar } from './lib/status';
+import { notification } from './lib/notification';
+import { Commands } from './commands';
 
 export async function activate(context: ExtensionContext): Promise<void> {
   const config = workspace.getConfiguration(extensionName);
@@ -22,6 +25,11 @@ export async function activate(context: ExtensionContext): Promise<void> {
   // state init
   state.init(context.storagePath);
 
+  context.subscriptions.push(statusBar);
+  context.subscriptions.push(notification);
+
   // register sources
   context.subscriptions.push(new SourceList());
+  // register commands
+  context.subscriptions.push(new Commands());
 }

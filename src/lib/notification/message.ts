@@ -1,14 +1,27 @@
 import { Dispose } from '../../util/dispose';
 import { FloatWindow } from './floatwindow';
 
+export enum MessageType {
+  success = 'CocLeetcodeGreen',
+  fail = 'CocLeetcodeRed',
+  default = 'NormalFloat',
+}
+
 export class Message extends Dispose {
+  private type: MessageType;
   private top = 0;
   public readonly height: number;
   public readonly width: number;
   public readonly floatWindow: FloatWindow;
 
-  constructor(public readonly lines: string[], maxWidth: number, private _time: number = 1000) {
+  constructor(
+    public readonly lines: string[],
+    maxWidth: number,
+    private _time: number = 1000,
+    type: MessageType = MessageType.default,
+  ) {
     super();
+    this.type = type;
     this.width = 0;
     this.height = 0;
     for (const line of lines) {
@@ -30,7 +43,7 @@ export class Message extends Dispose {
 
   public async show(top: number) {
     this.top = top;
-    await this.floatWindow.show(top);
+    await this.floatWindow.show(top, this.type);
   }
 
   public async update(time: number, top: number) {

@@ -5,6 +5,7 @@ import { leetcode } from '../leetcode';
 import { ProblemLevel, Problem } from '../leetcode/api/problems';
 import { logger } from '../util/logger';
 import { screenPadEnd } from '../util/string';
+import { extensionName } from '../util/constant';
 
 const log = logger.getlog('source-problems');
 
@@ -76,6 +77,7 @@ export default class LeetcodeList implements IList {
         const problem = selectItem.data as Problem;
         const detail = await problem.getDetail();
         const nvim = workspace.nvim;
+        const detailString = JSON.stringify(JSON.stringify(detail));
         nvim.pauseNotification();
         // open new tab
         nvim.command('tabnew', true);
@@ -97,6 +99,7 @@ export default class LeetcodeList implements IList {
           true,
         );
         nvim.command('normal! gg', true);
+        nvim.command(`let b:${extensionName}=${detailString}`, true);
         // create commit buffer
         nvim.command(`leftabove vsplit leetcode://${detail.titleSlug}.js`, true);
         nvim.command('setl nobuflisted noswapfile bufhidden=wipe', true);
@@ -104,6 +107,7 @@ export default class LeetcodeList implements IList {
         nvim.call('append', [0, getCodeByType('javascript', detail.codeSnippets).split(/\r\n|\n/)], true);
         nvim.command(`setl nomodified`, true);
         nvim.command('normal! gg', true);
+        nvim.command(`let b:${extensionName}=${detailString}`, true);
         await nvim.resumeNotification(false, false);
 
         let subscription: Disposable[] = [];

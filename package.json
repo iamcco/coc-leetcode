@@ -1,6 +1,6 @@
 {
   "name": "coc-leetcode",
-  "version": "1.0.0-dev",
+  "version": "1.0.0-dev2",
   "description": "leetcode support for (Neo)vim",
   "author": "iamcco <ooiss@qq.com>",
   "license": "MIT",
