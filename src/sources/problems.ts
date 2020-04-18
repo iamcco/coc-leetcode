@@ -24,6 +24,7 @@ const getCodeByType = (type: string, codes: Array<{ langSlug: string; code: stri
 class Task extends EventEmitter implements ListTask {
   constructor() {
     super();
+    this.start();
   }
 
   async start() {
@@ -48,6 +49,7 @@ class Task extends EventEmitter implements ListTask {
       this.done();
     } catch (error) {
       log(`fetch problems: ${error.stack} ${error.message}`);
+      this.done();
     }
   }
 
@@ -151,10 +153,6 @@ export default class LeetcodeList implements IList {
 
   public async loadItems(context: ListContext): Promise<ListTask | ListItem[]> {
     log(`input: ${context.input}`);
-    const task = new Task();
-    setTimeout(() => {
-      task.start();
-    }, 150);
-    return task;
+    return new Task();
   }
 }
