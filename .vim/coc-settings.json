@@ -22,6 +22,8 @@
     "regist",
     "setf",
     "setl",
-    "tabnew"
+    "tabnew",
+    "testcase",
+    "testcases"
   ]
 }
