@@ -29,7 +29,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   context.subscriptions.push(notification);
 
   // register sources
-  context.subscriptions.push(new SourceList());
+  context.subscriptions.push(new SourceList(context));
   // register commands
   context.subscriptions.push(new Commands());
 }

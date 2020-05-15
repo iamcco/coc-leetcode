@@ -61,8 +61,8 @@ export const interpret = async () => {
     [
       ` 执行时间: ${res![1].status_runtime}`,
       ` 输入: ${(problemDetail!.sampleTestCase || '').split('\n').join(',')}`,
-      ` 输出: ${expect}`,
-      ` 预期结果: ${actual}`,
+      ` 预期结果: ${expect}`,
+      ` 输出: ${actual}`,
     ],
     10000,
     actual === expect ? MessageType.success : MessageType.fail,

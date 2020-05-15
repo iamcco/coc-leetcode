@@ -1,11 +1,14 @@
-import { IList, ListAction, ListContext, ListTask, ListItem, workspace, Disposable } from 'coc.nvim';
+import { IList, ListAction, ListContext, ListTask, ListItem, workspace, Disposable, ExtensionContext } from 'coc.nvim';
+import path from 'path';
 import colors from 'colors/safe';
 import { EventEmitter } from 'events';
+
 import { leetcode } from '../leetcode';
 import { ProblemLevel, Problem } from '../leetcode/api/problems';
 import { logger } from '../util/logger';
 import { screenPadEnd } from '../util/string';
 import { extensionName } from '../util/constant';
+import { exists, mkdir } from '../util/fs';
 
 const log = logger.getlog('source-problems');
 
@@ -80,6 +83,16 @@ export default class LeetcodeList implements IList {
         const detail = await problem.getDetail();
         const nvim = workspace.nvim;
         const detailString = JSON.stringify(JSON.stringify(detail));
+        let isExists = await exists(this.context.storagePath);
+        if (!isExists) {
+          try {
+            await mkdir(this.context.storagePath);
+          } catch (error) {
+            log(`mkdir fail: ${error}`);
+          }
+        }
+        const filePath = path.join(this.context.storagePath, `${detail.titleSlug}.js`);
+        isExists = await exists(filePath);
         nvim.pauseNotification();
         // open new tab
         nvim.command('tabnew', true);
@@ -102,12 +115,14 @@ export default class LeetcodeList implements IList {
         );
         nvim.command('normal! gg', true);
         nvim.command(`let b:${extensionName}=${detailString}`, true);
-        // create commit buffer
-        nvim.command(`leftabove vsplit leetcode://${detail.titleSlug}.js`, true);
-        nvim.command('setl nobuflisted noswapfile bufhidden=wipe', true);
+        // create content
+        nvim.command(`leftabove vsplit ${filePath}`, true);
+        nvim.command('setl nobuflisted bufhidden=wipe', true);
         nvim.command('setf javascript', true);
-        nvim.call('append', [0, getCodeByType('javascript', detail.codeSnippets).split(/\r\n|\n/)], true);
-        nvim.command(`setl nomodified`, true);
+        if (!isExists) {
+          nvim.call('append', [0, getCodeByType('javascript', detail.codeSnippets).split(/\r\n|\n/)], true);
+          nvim.command(`setl nomodified`, true);
+        }
         nvim.command('normal! gg', true);
         nvim.command(`let b:${extensionName}=${detailString}`, true);
         await nvim.resumeNotification(false, false);
@@ -137,19 +152,12 @@ export default class LeetcodeList implements IList {
               }
             },
           } as any),
-          workspace.registerAutocmd({
-            event: 'BufWriteCmd <buffer>',
-            pattern: '',
-            request: true,
-            callback: async () => {
-              // set buffer nomodified
-              await nvim.command('setl nomodified');
-            },
-          }),
         );
       },
     },
   ];
+
+  constructor(private context: ExtensionContext) {}
 
   public async loadItems(context: ListContext): Promise<ListTask | ListItem[]> {
     log(`input: ${context.input}`);
