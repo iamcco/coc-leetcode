@@ -2,6 +2,8 @@ import { state } from '../../state';
 import axios, { Method } from 'axios';
 import { Dispose } from '../../util/dispose';
 import { logger } from '../../util/logger';
+import {notification} from '../../lib/notification';
+import {MessageType} from '../../lib/notification/message';
 
 const log = logger.getlog('Api');
 
@@ -44,8 +46,11 @@ export class Base extends Dispose {
         return res.data;
       })
       .catch(err => {
+        if (/Request failed with status code 403/.test(err.message)) {
+          notification.show(['需要登录'], 2000, MessageType.fail)
+        }
         log(`response-err: [${this.method}] ${this.url}`);
-        log(`response-err: ${err}`);
+        log(`response-err: ${JSON.stringify(err)}`);
         throw err;
       });
   }

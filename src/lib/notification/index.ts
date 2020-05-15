@@ -66,7 +66,7 @@ class Notification extends Dispose {
   }
 
   show(message: string | string[], showTime: number = messageDefaultShowTime, type: MessageType) {
-    const messages = ([] as string[]).concat(message);
+    const messages = ([] as string[]).concat(message).map(line => line.startsWith(' ') && line || ` ${line}`);
     if (messages.length === 0) {
       return;
     }

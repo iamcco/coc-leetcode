@@ -9,6 +9,7 @@
     "csrftoken",
     "foldmethod",
     "getlog",
+    "getpos",
     "hellod",
     "htom",
     "leftabove",
@@ -22,8 +23,13 @@
     "regist",
     "setf",
     "setl",
+    "tabclose",
     "tabnew",
+    "tabpage",
     "testcase",
-    "testcases"
+    "testcases",
+    "updation",
+    "winheight",
+    "winline"
   ]
 }

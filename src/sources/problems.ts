@@ -1,4 +1,4 @@
-import { IList, ListAction, ListContext, ListTask, ListItem, workspace, Disposable, ExtensionContext } from 'coc.nvim';
+import { IList, ListAction, ListContext, ListTask, ListItem, workspace, ExtensionContext } from 'coc.nvim';
 import path from 'path';
 import colors from 'colors/safe';
 import { EventEmitter } from 'events';
@@ -7,7 +7,7 @@ import { leetcode } from '../leetcode';
 import { ProblemLevel, Problem } from '../leetcode/api/problems';
 import { logger } from '../util/logger';
 import { screenPadEnd } from '../util/string';
-import { extensionName } from '../util/constant';
+import { extensionName, langs } from '../util/constant';
 import { exists, mkdir } from '../util/fs';
 
 const log = logger.getlog('source-problems');
@@ -91,7 +91,7 @@ export default class LeetcodeList implements IList {
             log(`mkdir fail: ${error}`);
           }
         }
-        const filePath = path.join(this.context.storagePath, `${detail.titleSlug}.js`);
+        const filePath = path.join(this.context.storagePath, `${detail.titleSlug}.${langs[this.language][0]}`);
         isExists = await exists(filePath);
         nvim.pauseNotification();
         // open new tab
@@ -118,46 +118,19 @@ export default class LeetcodeList implements IList {
         // create content
         nvim.command(`leftabove vsplit ${filePath}`, true);
         nvim.command('setl nobuflisted bufhidden=wipe', true);
-        nvim.command('setf javascript', true);
+        nvim.command(`setf ${langs[this.language][1]}`, true);
         if (!isExists) {
-          nvim.call('append', [0, getCodeByType('javascript', detail.codeSnippets).split(/\r\n|\n/)], true);
+          nvim.call('append', [0, getCodeByType(this.language, detail.codeSnippets).split(/\r\n|\n/)], true);
           nvim.command(`setl nomodified`, true);
         }
         nvim.command('normal! gg', true);
         nvim.command(`let b:${extensionName}=${detailString}`, true);
         await nvim.resumeNotification(false, false);
-
-        let subscription: Disposable[] = [];
-        const sub = Disposable.create(() => {
-          if (subscription && subscription.length) {
-            subscription.forEach(item => {
-              item.dispose();
-            });
-            subscription = [];
-          }
-        });
-        subscription.push(
-          workspace.registerAutocmd({
-            event: 'WinClosed <buffer>',
-            pattern: '',
-            request: false,
-            callback: async () => {
-              // unregister autocmd
-              sub.dispose();
-              // close tab
-              const tab = await nvim.tabpage;
-              const windows = await tab.windows;
-              if (windows.length > 1) {
-                await nvim.command('tabclose');
-              }
-            },
-          } as any),
-        );
       },
     },
   ];
 
-  constructor(private context: ExtensionContext) {}
+  constructor(private context: ExtensionContext, private language: string) {}
 
   public async loadItems(context: ListContext): Promise<ListTask | ListItem[]> {
     log(`input: ${context.input}`);

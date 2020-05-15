@@ -11,7 +11,7 @@ import { logger } from '../util/logger';
 
 const log = logger.getlog('Interpret');
 
-export const interpret = async () => {
+export const interpret = async (lang: string) => {
   const doc = await workspace.document;
   if (!doc) {
     return;
@@ -40,7 +40,7 @@ export const interpret = async () => {
   try {
     res = await interpret.request({
       question_id: problemDetail!.questionId,
-      lang: 'javascript',
+      lang,
       typed_code: code.join('\n'),
       data_input: problemDetail!.sampleTestCase,
       test_mode: false,

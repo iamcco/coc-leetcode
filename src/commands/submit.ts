@@ -9,14 +9,14 @@ import { MessageType } from '../lib/notification/message';
 import { logger } from '../util/logger';
 import { Submit, CheckResult } from '../leetcode/api/problems/submit';
 
-const log = logger.getlog('Interpret');
+const log = logger.getlog('Submit');
 
 const formatPercent = (percent: number): string => {
   const items = `${percent}`.split('.');
   return `${items[0]}${items[1] ? `.${items[1].slice(0, 2)}` : ''}`;
 };
 
-export const submit = async () => {
+export const submit = async (lang: string) => {
   const doc = await workspace.document;
   if (!doc) {
     return;
@@ -44,7 +44,7 @@ export const submit = async () => {
   let res: CheckResult;
   try {
     res = await interpret.request({
-      lang: 'javascript',
+      lang,
       questionSlug: problemDetail!.titleSlug,
       question_id: problemDetail!.questionId,
       typed_code: code.join('\n'),
@@ -54,8 +54,8 @@ export const submit = async () => {
     if (res.run_success) {
       notification.show(
         [
-          ` 执行用时: ${res.status_runtime}, JavaScript 击败 ${formatPercent(res.runtime_percentile)}% 用户`,
-          ` 内存消耗: ${res.status_memory}, JavaScript 击败 ${formatPercent(res.memory_percentile)}% 的用户`,
+          ` 执行用时: ${res.status_runtime}, ${lang} 击败 ${formatPercent(res.runtime_percentile)}% 用户`,
+          ` 内存消耗: ${res.status_memory}, ${lang} 击败 ${formatPercent(res.memory_percentile)}% 的用户`,
         ],
         10000,
         MessageType.success,

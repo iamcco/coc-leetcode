@@ -1,6 +1,6 @@
 {
   "name": "coc-leetcode",
-  "version": "1.0.0-dev3",
+  "version": "1.0.0",
   "description": "leetcode support for (Neo)vim",
   "author": "iamcco <ooiss@qq.com>",
   "license": "MIT",
@@ -47,15 +47,48 @@
           "type": "boolean",
           "default": true,
           "description": "Enable/disable this extension"
+        },
+        "leetcode.language": {
+          "type": "string",
+          "default": "javascript",
+          "enum": [
+            "javascript",
+            "cpp",
+            "java",
+            "python",
+            "python3",
+            "c",
+            "csharp",
+            "ruby",
+            "swift",
+            "golang",
+            "scala",
+            "kotlin",
+            "rust",
+            "php"
+          ],
+          "description": "Using which language"
         }
+      }
+    },
+    "commands": [
+      {
+        "command": "leetcode.login",
+        "title": "Login by account and password"
       },
-      "commands": [
-        {
-          "command": "leetcode.login",
-          "title": "Login by account and password"
-        }
-      ]
-    }
+      {
+        "command": "leetcode.run",
+        "title": "Run code of current leetcode buffer"
+      },
+      {
+        "command": "leetcode.submit",
+        "title": "Submit code of current leetcode buffer"
+      },
+      {
+        "command": "leetcode.comments",
+        "title": "Fetch comments of current problem"
+      }
+    ]
   },
   "devDependencies": {
     "@types/node": "^13.11.0",
@@ -63,6 +96,7 @@
     "@typescript-eslint/parser": "^2.5.0",
     "coc.nvim": "^0.0.77",
     "colors": "^1.4.0",
+    "dayjs": "^1.8.27",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-plugin-prettier": "^3.1.1",
@@ -73,9 +107,7 @@
     "typescript": "^3.5.3",
     "vscode-languageserver-protocol": "3.15.0-next.6",
     "webpack": "^4.39.2",
-    "webpack-cli": "^3.3.6"
-  },
-  "dependencies": {
+    "webpack-cli": "^3.3.6",
     "axios": "^0.19.2"
   }
 }
