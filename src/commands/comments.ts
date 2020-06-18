@@ -18,7 +18,7 @@ const formatContents = (comments: CommentItem[], init: string[]): string[] => {
     return pre.concat([
       `## ${cur.post.author.profile.realName}`,
       '',
-      `> 更新于：${dayjs(cur.post.updationDate).format('YYYY/MM/DD HH:mm')} 👍 ${cur.post.voteUpCount}`,
+      `> 更新于：${dayjs(cur.post.updationDate * 1000).format('YYYY/MM/DD HH:mm')} 👍 ${cur.post.voteUpCount}`,
       '',
       ...cur.post.content.split(/\r\n|\n/),
       '',

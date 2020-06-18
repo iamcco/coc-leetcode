@@ -28,7 +28,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
   context.subscriptions.push(statusBar);
   context.subscriptions.push(notification);
 
-  const language = config.get<string>('language', 'javascript')
+  const language = config.get<string>('language', 'javascript');
 
   // register sources
   context.subscriptions.push(new SourceList(context, language));

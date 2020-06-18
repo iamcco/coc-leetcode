@@ -51,7 +51,7 @@ export const submit = async (lang: string) => {
       test_mode: false,
       test_judger: '',
     });
-    if (res.run_success) {
+    if (res.run_success && res.status_runtime && res.status_memory && res.runtime_percentile && res.memory_percentile) {
       notification.show(
         [
           ` 执行用时: ${res.status_runtime}, ${lang} 击败 ${formatPercent(res.runtime_percentile)}% 用户`,
