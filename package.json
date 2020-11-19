@@ -1,6 +1,6 @@
 {
   "name": "coc-leetcode",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "leetcode support for (Neo)vim",
   "author": "iamcco <ooiss@qq.com>",
   "license": "MIT",
@@ -10,7 +10,7 @@
     "leetcode"
   ],
   "engines": {
-    "coc": "^0.0.74"
+    "coc": "^0.0.79"
   },
   "scripts": {
     "clean": "rm -rf ./out",
@@ -94,7 +94,8 @@
     "@types/node": "^13.11.0",
     "@typescript-eslint/eslint-plugin": "^2.5.0",
     "@typescript-eslint/parser": "^2.5.0",
-    "coc.nvim": "^0.0.77",
+    "axios": "^0.21.0",
+    "coc.nvim": "^0.0.79",
     "colors": "^1.4.0",
     "dayjs": "^1.8.27",
     "eslint": "^6.6.0",
@@ -105,9 +106,8 @@
     "prettier": "^1.18.2",
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",
-    "vscode-languageserver-protocol": "3.15.0-next.6",
+    "vscode-languageserver-protocol": "3.15.3",
     "webpack": "^4.39.2",
-    "webpack-cli": "^3.3.6",
-    "axios": "^0.19.2"
+    "webpack-cli": "^3.3.6"
   }
 }

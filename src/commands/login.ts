@@ -16,5 +16,7 @@ export const login = async () => {
   const res = await leetcode.login.request(userName, password);
   if (res && res.data && res.data.authSignInWithPassword && res.data.authSignInWithPassword.ok) {
     notification.show(['登录成功'], 2000, MessageType.success);
+  } else {
+    notification.show(['登录失败'], 2000, MessageType.fail);
   }
 };
