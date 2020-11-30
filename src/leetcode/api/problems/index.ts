@@ -1,5 +1,4 @@
 import { Base } from '../base';
-import { Method } from 'axios';
 import { graphqlTag } from '../../../util/string';
 import { leetcode } from '../..';
 import { ProblemDetail } from './detail';
@@ -9,7 +8,7 @@ function getDetail(this: Problem) {
 }
 
 class Translations extends Base {
-  method: Method = 'POST';
+  method = 'POST';
   private readonly query: string = graphqlTag`
     "query": "query getQuestionTranslation($lang: String) {
         translations: allAppliedQuestionTranslations(lang: $lang) {
@@ -36,7 +35,7 @@ class Translations extends Base {
 }
 
 class Details extends Base {
-  method: Method = 'GET';
+  method = 'GET';
   url = 'https://leetcode-cn.com/api/problems/all/';
 }
 

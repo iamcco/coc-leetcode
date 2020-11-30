@@ -1,5 +1,4 @@
 import { Base } from '../base';
-import { Method } from 'axios';
 import { graphqlTag } from '../../../util/string';
 import { logger } from '../../../util/logger';
 import htom from 'htom';
@@ -61,7 +60,7 @@ export interface ProblemDetail {
 }
 
 export class Detail extends Base {
-  method: Method = 'POST';
+  method = 'POST';
   private readonly query: string = graphqlTag`
     "query":"query questionData($titleSlug: String!) {
       question(titleSlug: $titleSlug) {

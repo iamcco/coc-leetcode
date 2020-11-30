@@ -1,5 +1,5 @@
 import { state } from '../../state';
-import axios, { Method } from 'axios';
+import fetch from 'node-fetch';
 import { Dispose } from '../../util/dispose';
 import { logger } from '../../util/logger';
 import { notification } from '../../lib/notification';
@@ -8,7 +8,7 @@ import { MessageType } from '../../lib/notification/message';
 const log = logger.getlog('Api');
 
 export class Base extends Dispose {
-  protected method: Method = 'GET';
+  protected method = 'GET';
   protected url = 'https://leetcode-cn.com/graphql/';
   protected readonly headers: Record<string, string> = {};
 
@@ -33,17 +33,19 @@ export class Base extends Dispose {
     log(`request: [${this.method}] ${this.url}`);
     log(`request-headers: ${JSON.stringify(headers, null, 2)}`);
     log(`request-params: ${data}`);
-    return axios({
+    return fetch(this.url, {
       method: this.method,
-      url: this.url,
       headers: this.getHeaders(),
-      data,
+      body: data,
     })
       .then(res => {
-        state.updateByHeaders(res.headers);
+        state.updateByHeaders(res.headers.raw());
+        return res.json();
+      })
+      .then(data => {
         log(`response-data: [${this.method}] ${this.url}`);
-        log(`response-data: ${JSON.stringify(res.data)}`);
-        return res.data;
+        log(`response-data: ${JSON.stringify(data)}`);
+        return data;
       })
       .catch(err => {
         if (/Request failed with status code 403/.test(err.message)) {

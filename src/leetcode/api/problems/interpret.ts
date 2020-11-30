@@ -1,5 +1,4 @@
 import { Base } from '../base';
-import { Method } from 'axios';
 
 interface Params {
   question_id: string;
@@ -41,7 +40,7 @@ export interface CheckResult {
 }
 
 class CheckRun extends Base {
-  method: Method = 'GET';
+  method = 'GET';
 
   constructor(id: string) {
     super();
@@ -64,7 +63,7 @@ class CheckRun extends Base {
 }
 
 export class Interpret extends Base {
-  method: Method = 'POST';
+  method = 'POST';
 
   constructor(slug: string) {
     super();

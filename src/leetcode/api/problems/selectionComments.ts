@@ -1,10 +1,9 @@
-import { Method } from 'axios';
 import { Base } from '../base';
 import { graphqlTag } from '../../../util/string';
-import {CommentItem} from './topicComments';
+import { CommentItem } from './topicComments';
 
 export class SelectionComment extends Base {
-  method: Method = 'POST';
+  method = 'POST';
   private readonly query: string = graphqlTag`
     "query":"query commentsSelection($topicId: ID!) {
         commentsSelection(topicId: $topicId) {

@@ -1,4 +1,3 @@
-import { Method } from 'axios';
 import { Base } from '../base';
 import { graphqlTag } from '../../../util/string';
 
@@ -28,7 +27,7 @@ export interface CommentItem {
 }
 
 export class TopicComment extends Base {
-  method: Method = 'POST';
+  method = 'POST';
   private readonly query: string = graphqlTag`
     "query": "query commonTopicComments($topicId: Int!, $orderBy: CommentOrderBy, $skip: Int) {
       commonTopicComments(topicId: $topicId, orderBy: $orderBy, skip: $skip, first: 15) {
@@ -99,7 +98,9 @@ export class TopicComment extends Base {
 
   async request(id: number | string, skip: number | string): Promise<CommentItem[]> {
     const res = await super.request(id, skip);
-    return ((res && res.data && res.data.commonTopicComments && res.data.commonTopicComments.edges as any[]) || [])
-      .map(item => item.node)
+    return (
+      (res && res.data && res.data.commonTopicComments && (res.data.commonTopicComments.edges as any[])) ||
+      []
+    ).map(item => item.node);
   }
 }
