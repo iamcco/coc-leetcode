@@ -3,7 +3,7 @@ import { graphqlTag } from '../../util/string';
 
 export class Login extends Base {
   readonly method = 'POST';
-  readonly url: string = 'https://leetcode-cn.com/graphql/';
+  readonly url: string = 'https://https://leetcode.cn//graphql/';
   private readonly query: string = graphqlTag`
     "query":"mutation signInWithPassword($data: AuthSignInWithPasswordInput!) {
         authSignInWithPassword(data: $data) {

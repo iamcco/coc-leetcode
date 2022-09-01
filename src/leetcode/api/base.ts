@@ -9,13 +9,13 @@ const log = logger.getlog('Api');
 
 export class Base extends Dispose {
   protected method = 'GET';
-  protected url = 'https://leetcode-cn.com/graphql/';
+  protected url = 'https://https://leetcode.cn//graphql/';
   protected readonly headers: Record<string, string> = {};
 
   protected getHeaders() {
     return {
       'Content-Type': 'application/json;charset=utf-8',
-      Referer: 'https://leetcode-cn.com/',
+      Referer: 'https://https://leetcode.cn//',
       'x-csrftoken': state.csrftoken,
       cookie: state.cookies,
       ...this.headers,
