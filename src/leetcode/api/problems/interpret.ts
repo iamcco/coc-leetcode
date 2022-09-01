@@ -44,7 +44,7 @@ class CheckRun extends Base {
 
   constructor(id: string) {
     super();
-    this.url = `https://leetcode-cn.com/submissions/detail/${id}/check/`;
+    this.url = `https://leetcode.cn//submissions/detail/${id}/check/`;
   }
 
   check(): Promise<CheckResult> {
@@ -67,7 +67,7 @@ export class Interpret extends Base {
 
   constructor(slug: string) {
     super();
-    this.url = `https://leetcode-cn.com/problems/${slug}/interpret_solution/`;
+    this.url = `https://leetcode.cn//problems/${slug}/interpret_solution/`;
   }
 
   getParams(params: Params) {

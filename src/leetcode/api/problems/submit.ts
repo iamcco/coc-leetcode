@@ -47,7 +47,7 @@ class CheckRun extends Base {
 
   constructor(id: number) {
     super();
-    this.url = `https://leetcode-cn.com/submissions/detail/${id}/check/`;
+    this.url = `https://leetcode.cn//submissions/detail/${id}/check/`;
   }
 
   check(): Promise<CheckResult> {
@@ -70,7 +70,7 @@ export class Submit extends Base {
 
   constructor() {
     super();
-    this.url = `https://leetcode-cn.com/problems/two-sum/submit/`;
+    this.url = `https://leetcode.cn//problems/two-sum/submit/`;
   }
 
   getParams(params: Params) {
