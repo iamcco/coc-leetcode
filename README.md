@@ -1,4 +1,4 @@
-# [Leetcode-cn](https://https://leetcode.cn/) 插件
+# [Leetcode-cn](https://leetcode.cn/) 插件
 
 ![image](https://user-images.githubusercontent.com/5492542/82134259-a73b0c00-9828-11ea-9c73-e4ab21c61351.png)
 
